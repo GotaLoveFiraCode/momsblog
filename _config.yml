@@ -28,7 +28,7 @@ url: "https://gotalovefiracode.github.io/momsblog" # the base hostname & protoco
 #github_username:  jekyll
 
 # Build settings
-theme: jekyll-theme-cayman
+theme: minima
 plugins:
   - jekyll-feed
 
