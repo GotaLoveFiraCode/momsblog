@@ -1,0 +1,100 @@
+#!/bin/env sh
+
+# =========================
+# Configuration
+# =========================
+
+SCRIPT_NAME=$(basename "$0")
+
+# =========================
+# Utility functions
+# =========================
+
+usage() {
+  cat <<EOF
+Usage:
+  $SCRIPT_NAME [OPTIONS] <file>
+
+Description:
+  Add posts to or modify posts on your blog!
+
+Options:
+  help, --help    Show this help message.
+
+Arguments:
+  <file>          Path to the post, as an HTML file.
+
+Examples:
+  $SCRIPT_NAME post.html
+  $SCRIPT_NAME ./posts/title.html
+  $SCRIPT_NAME ~/Documents/Scrivener/review.html
+EOF
+}
+
+error() {
+  printf '%s: %s\n' "$SCRIPT_NAME" "$1" >&2
+  exit 1
+}
+
+# =========================
+# Argument handling
+# =========================
+
+# No arguments → show help
+if [ "$#" -eq 0 ]; then
+  usage
+  exit 0
+fi
+
+# Help flags
+case "$1" in
+help | --help)
+  usage
+  exit 0
+  ;;
+esac
+
+# For now, expect exactly one positional argument
+if [ "$#" -ne 1 ]; then
+  error "Expected exactly one file argument. Use --help for usage."
+fi
+
+INPUT_PATH=$1
+
+# =========================
+# Path validation
+# =========================
+
+# Check existence
+if [ ! -e "$INPUT_PATH" ]; then
+  error "File does not exist: $INPUT_PATH"
+fi
+
+# Check regular file
+if [ ! -f "$INPUT_PATH" ]; then
+  error "Not a regular file: $INPUT_PATH"
+fi
+
+# =========================
+# File type validation
+# =========================
+
+# Basic extension check (case-insensitive)
+case "$INPUT_PATH" in
+*.html | *.HTML) ;;
+*)
+  error "Input file must have .html extension"
+  ;;
+esac
+
+# =========================
+# Main logic placeholder
+# =========================
+
+# Resolve to absolute path (portable approach)
+ABS_PATH=$(cd "$(dirname "$INPUT_PATH")" 2>/dev/null && pwd)/$(basename "$INPUT_PATH")
+
+# Draft placeholder — replace or extend as needed
+printf 'Valid HTML file detected:\n  %s\n' "$ABS_PATH"
+
+exit 0
